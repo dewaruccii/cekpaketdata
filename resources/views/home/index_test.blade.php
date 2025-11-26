@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cek Kepatuhan Harga Paket Data</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Lucide Icons untuk ikon yang modern -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo.png') }}" />
     <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="{{ asset('assets/img/logo.png') }}" />
     <style>
@@ -16,14 +16,12 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f4f8;
-            /* Background lebih soft */
         }
 
         /* Custom styling untuk animasi loading */
         .loader {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #10b981;
-            /* Warna hijau primary */
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -45,7 +43,6 @@
             --tw-ring-color: #10b981;
             border-color: #10b981;
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-            /* Ring shadow kustom */
         }
     </style>
     <script>
@@ -55,10 +52,8 @@
                 extend: {
                     colors: {
                         primary: '#10b981',
-                        /* Hijau Solid */
                         secondary: '#059669',
                         info: '#3b82f6',
-                        /* Biru untuk informasi */
                         success: '#10b981',
                         danger: '#ef4444',
                     }
@@ -71,19 +66,16 @@
 <body class="min-h-screen flex items-start justify-center p-4 md:p-8">
 
     <div class="w-full max-w-xl bg-white shadow-2xl rounded-3xl p-6 md:p-10 transform transition-all duration-300">
-        <!-- Header Aplikasi -->
         <div class="flex items-center space-x-3 mb-6">
             <img src="{{ asset('assets/img/telkomsel-seeklogo.png') }}" width="50" alt="">
             <h1 class="text-3xl font-extrabold text-gray-800">Cek Kepatuhan Harga</h1>
-            <img src="{{ asset('assets/img/logo.png') }}" class="absolute top-2 right-3" width="50" alt="">
+            {{-- <img src="{{ asset('assets/img/logo.png') }}" class="absolute top-2 right-3" width="50" alt=""> --}}
         </div>
         <p class="text-gray-500 mb-8 border-b pb-4">Masukkan detail paket data internet Anda untuk menghitung dan
             memeriksa Price Per Gigabyte (PPGB) terhadap ambang batas kepatuhan.</p>
 
-        <!-- Form Input Area -->
         <div class="space-y-6">
 
-            <!-- Pilihan Operator -->
             <div>
                 <label for="operator" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                     <i data-lucide="phone" class="w-4 h-4 mr-2 text-info"></i> Operator
@@ -97,7 +89,6 @@
                 </select>
             </div>
 
-            <!-- Input Harga -->
             <div>
                 <label for="hargaInput" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                     <i data-lucide="wallet" class="w-4 h-4 mr-2 text-info"></i> Harga Paket (Rp)
@@ -109,7 +100,6 @@
                 </div>
             </div>
 
-            <!-- Input Kuota -->
             <div>
                 <label for="kuotaInput" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                     <i data-lucide="hard-drive" class="w-4 h-4 mr-2 text-info"></i> Kuota (GB)
@@ -122,7 +112,6 @@
                 </div>
             </div>
 
-            <!-- Input Masa Aktif -->
             <div>
                 <label for="masaAktifInput" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                     <i data-lucide="calendar" class="w-4 h-4 mr-2 text-info"></i> Masa Aktif (Hari)
@@ -135,34 +124,30 @@
                 </div>
             </div>
 
-            <!-- Tombol Simpan -->
             <button onclick="submitPackage()" id="checkButton"
-                class="w-full bg-primary text-white p-4 rounded-xl font-bold text-lg hover:bg-secondary transition duration-300 ease-in-out shadow-lg shadow-primary/30 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled>
+                class="w-full bg-primary text-white p-4 rounded-xl font-bold text-lg hover:bg-secondary transition duration-300 ease-in-out shadow-lg shadow-primary/30 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
                 <span id="buttonText">Simpan & Hitung Kepatuhan</span>
                 <div id="loader" class="loader ml-3 hidden"></div>
             </button>
-            <div class="text-center mt-4 text-gray-400 text-sm">
-                <span>2025 © CPMA A2</span>
-            </div>
+
 
         </div>
 
-        <!-- Area Hasil Konfirmasi -->
         <div id="results" class="mt-8">
-            <!-- Konfirmasi hasil akan ditampilkan di sini -->
+        </div>
+        <div class="text-center mt-4 text-gray-400 text-sm">
+            <span>2025 © CPM A2</span>
         </div>
 
-        <!-- Alert/Error Message (for custom messages, replacing alert()) -->
         <div id="alertBox" class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center z-50 p-4"
             onclick="closeAlert()">
             <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full transform transition-all duration-300 scale-100 opacity-100"
                 onclick="event.stopPropagation()">
                 <div class="flex justify-between items-center mb-3">
                     <h3 id="alertTitle" class="text-xl font-bold text-red-600">Error</h3>
-                    <button onclick="closeAlert()" class="text-gray-400 hover:text-gray-600">
+                    {{-- <button onclick="closeAlert()" class="text-gray-400 hover:text-gray-600">
                         <i data-lucide="x" class="w-6 h-6"></i>
-                    </button>
+                    </button> --}}
                 </div>
                 <p id="alertMessage" class="text-gray-600 mb-6"></p>
                 <button onclick="closeAlert()"
@@ -170,7 +155,64 @@
             </div>
         </div>
 
-        <!-- Footer for Icon rendering -->
+        <div id="uploadModal"
+            class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center z-50 p-4"
+            onclick="closeModal()">
+            <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-lg w-full transform transition-all duration-300 scale-100 opacity-100"
+                onclick="event.stopPropagation()">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary flex items-center">
+                        <i data-lucide="cloud-upload" class="w-6 h-6 mr-2"></i> Konfirmasi & Upload Bukti
+                    </h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <form id="packageForm" enctype="multipart/form-data">
+                    @csrf
+
+                    <input type="hidden" id="modal_operator" name="operator">
+                    <input type="hidden" id="modal_harga" name="harga">
+                    <input type="hidden" id="modal_kuota_gb" name="kuota_gb">
+                    <input type="hidden" id="modal_masa_aktif_hari" name="masa_aktif_hari">
+                    <input type="hidden" id="modal_latitude" name="latitude">
+                    <input type="hidden" id="modal_longitude" name="longitude">
+                    <input type="hidden" id="modal_flag" name="flag">
+                    <input type="hidden" id="modal_ppgb" name="ppgb">
+
+                    <div class="mb-5 p-4 border border-dashed border-gray-300 rounded-xl bg-gray-50">
+                        <label for="buktiUpload"
+                            class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                            <i data-lucide="image" class="w-4 h-4 mr-2 text-primary"></i> Unggah Bukti (Max 2MB per
+                            file, Max 5 file)
+                        </label>
+                        <input type="file" id="buktiUpload" name="bukti[]" accept="image/jpeg,image/png" multiple
+                            required
+                            class="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition duration-150 ease-in-out">
+                    </div>
+
+                    <div class="mb-5 p-4 border border-info/50 rounded-xl bg-info/5">
+                        <p class="text-sm font-semibold text-info flex items-center mb-2">
+                            <i data-lucide="map-pin" class="w-4 h-4 mr-2"></i> Status Lokasi GPS:
+                        </p>
+                        <div class="flex items-center space-x-2">
+                            <div id="locationLoader" class="loader w-4 h-4 mr-2"></div>
+                            <span id="locationStatus" class="text-sm text-gray-600 font-medium">Meminta izin
+                                lokasi...</span>
+                        </div>
+                        <p id="locationData" class="text-xs text-gray-500 mt-2 hidden"></p>
+                    </div>
+
+                    <button type="submit" id="finalSubmitButton" disabled
+                        class="w-full bg-primary text-white p-3 rounded-xl font-bold text-lg hover:bg-secondary transition duration-300 ease-in-out shadow-lg shadow-primary/30 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i data-lucide="save" class="w-5 h-5 mr-2"></i>
+                        <span id="finalButtonText">Konfirmasi & Kirim Data</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
         <script>
             // Render Lucide icons
             lucide.createIcons();
@@ -180,7 +222,6 @@
     <script>
         // Deklarasi elemen input
         const operatorSelect = document.getElementById('operator');
-        // const packageNameInput = document.getElementById('packageName'); // Dihapus dari HTML baru
         const hargaInput = document.getElementById('hargaInput');
         const kuotaInput = document.getElementById('kuotaInput');
         const masaAktifInput = document.getElementById('masaAktifInput');
@@ -193,68 +234,68 @@
         const alertTitle = document.getElementById('alertTitle');
         const alertMessage = document.getElementById('alertMessage');
 
-        // Data PPGB Minimum berdasarkan Harga Bulanan (dari snippet CSV) - LOGIC TIDAK DIUBAH
-        // Rentang Harga (dalam Rupiah, Monthly Price Normalized)
-        // <32000: PPGB Min 4.0
-        // 32000 - 34000: PPGB Min 4.0
-        // 35000 - 39000: PPGB Min 3.5
-        // 40000 - 49000: PPGB Min 3.0
-        // 50000 - 59000: PPGB Min 2.5
-        // 60000 - 69000: PPGB Min 2.25
-        // 70000 - 79000: PPGB Min 2.0
-        // >80000: PPGB Min 2.0
+        // Deklarasi elemen modal
+        const uploadModal = document.getElementById('uploadModal');
+        const locationStatus = document.getElementById('locationStatus');
+        const locationLoader = document.getElementById('locationLoader');
+        const locationDataEl = document.getElementById('locationData');
+        const finalSubmitButton = document.getElementById('finalSubmitButton');
+        const finalButtonText = document.getElementById('finalButtonText');
+
+
+        // Data PPGB Minimum berdasarkan Harga Bulanan
         const MIN_PPGB_THRESHOLDS = [{
                 maxPrice: 34000,
                 minPPGB: 4
-            }, // 32k - 34k
+            },
             {
                 maxPrice: 39000,
                 minPPGB: 3.5
-            }, // 35k - 39k
+            },
             {
                 maxPrice: 49000,
                 minPPGB: 3
-            }, // 40k - 49k
+            },
             {
                 maxPrice: 59000,
                 minPPGB: 2.5
-            }, // 50k - 59k
+            },
             {
                 maxPrice: 69000,
                 minPPGB: 2.25
-            }, // 60k - 69k
+            },
             {
                 maxPrice: 79000,
                 minPPGB: 2
-            }, // 70k - 79k
+            },
             {
                 maxPrice: 89000,
                 minPPGB: 2
-            }, // 70k - 79k
+            },
             {
                 maxPrice: 99000,
                 minPPGB: 1.8
-            }, // 70k - 79k
+            },
             {
                 maxPrice: 109000,
                 minPPGB: 1.5
-            }, // 70k - 79k
+            },
             {
                 maxPrice: 119000,
                 minPPGB: 1.5
-            }, // 70k - 79k
+            },
             {
                 maxPrice: 149000,
                 minPPGB: 1.5
-            }, // 70k - 79k
+            },
             {
                 maxPrice: 200000,
                 minPPGB: 1.0
-            }, // 70k - 79k
+            },
             {
                 maxPrice: Infinity,
                 minPPGB: 0.56
-            } // 80k+
+            }
         ];
 
         // --- Utility Functions ---
@@ -270,7 +311,7 @@
 
             alertBox.classList.remove('hidden');
             alertBox.classList.add('flex');
-            lucide.createIcons(); // Render ikon dalam modal
+            lucide.createIcons();
         }
 
         function closeAlert() {
@@ -278,23 +319,35 @@
             alertBox.classList.remove('flex');
         }
 
-        // Memastikan input adalah string sebelum memanggil .replace()
+        function closeModal() {
+            $(uploadModal).removeClass('flex').addClass('hidden');
+            // Reset state modal
+            $('#locationStatus').text('Meminta izin lokasi...');
+            $('#locationLoader').removeClass('hidden');
+            $('#locationData').addClass('hidden').text('');
+            $('#modal_latitude').val('');
+            $('#modal_longitude').val('');
+            $('#finalSubmitButton').prop('disabled', true);
+            // Hapus hasil perhitungan sementara (HANYA HAPUS jika ada rencana reset total)
+            // resultsDiv.innerHTML = '';
+            // Reset input file
+            $('#buktiUpload').val('');
+        }
+
         function cleanRupiahFormat(value) {
             if (value === null || value === undefined) {
                 value = '';
             }
-            // Konversi ke string dijamin terjadi di sini
             return String(value).replace(/[^,\d]/g, '').replace(/,/g, '');
         }
 
         function formatRupiah(amount) {
-            // Memastikan amount adalah string sebelum diproses
             if (amount === null || amount === undefined) {
                 amount = '';
             }
 
             let number_string = cleanRupiahFormat(amount).toString();
-            if (!number_string) return ''; // Tambahkan cek untuk string kosong setelah dibersihkan
+            if (!number_string) return '';
 
             let sisa = number_string.length % 3;
             let rupiah = number_string.substr(0, sisa);
@@ -304,54 +357,39 @@
                 let separator = sisa ? '.' : '';
                 rupiah += separator + ribuan.join('.');
             }
-            return rupiah; // Mengembalikan angka tanpa 'Rp ' karena sudah ada di input field
+            return rupiah;
         }
 
-        // Fungsi untuk mengekstrak angka dari input Kuota (GB)
         function extractNumericGB(value) {
-            const match = String(value).match(/(\d+(\.\d+)?)/); // Cari angka (termasuk desimal)
+            const match = String(value).match(/(\d+(\.\d+)?)/);
             return match ? parseFloat(match[1]) : NaN;
         }
 
-        // Fungsi untuk mengekstrak angka dari input Masa Aktif (Hari)
         function extractNumericDays(value) {
-            const valueStr = String(value); // Konversi ke string untuk keamanan
+            const valueStr = String(value);
             const daysMatch = valueStr.match(/(\d+)\s*(hari|day|days)/i);
             if (daysMatch) return parseInt(daysMatch[1]);
 
             const monthMatch = valueStr.match(/(\d+)\s*(bulan|month|months)/i);
-            if (monthMatch) return parseInt(monthMatch[1]) * 30; // Asumsi 1 bulan = 30 hari
+            if (monthMatch) return parseInt(monthMatch[1]) * 30;
 
-            const simpleNumberMatch = valueStr.match(/^\s*(\d+)\s*$/); // Angka saja
-            if (simpleNumberMatch) return parseInt(simpleNumberMatch[1]); // Anggap sebagai hari jika angka tunggal
+            const simpleNumberMatch = valueStr.match(/^\s*(\d+)\s*$/);
+            if (simpleNumberMatch) return parseInt(simpleNumberMatch[1]);
 
             return NaN;
         }
 
         // --- Calculation Logic ---
 
-        /**
-         * Mencari Minimum PPGB berdasarkan Harga Bulanan.
-         * @param {number} monthlyPrice Harga Bulanan yang sudah dinormalisasi (numeric).
-         * @returns {number} Nilai PPGB Minimum.
-         */
         function getMinPPGB(monthlyPrice) {
-            // Kita harus mengalikan 1000 karena threshold di CSV adalah dalam satuan ribuan (e.g., 3.5 = 3500)
-            const priceInK = monthlyPrice / 1000;
-
             for (const threshold of MIN_PPGB_THRESHOLDS) {
-                // Pengecekan dilakukan berdasarkan harga bulanan yang dinormalisasi (dalam Rupiah)
                 if (monthlyPrice <= threshold.maxPrice) {
                     return threshold.minPPGB;
                 }
             }
-            // Default jika harga sangat tinggi (di atas 79k)
             return 2;
         }
 
-        /**
-         * Melakukan semua perhitungan dan pengecekan kepatuhan.
-         */
         function calculateCompliance(price, days, gb) {
             let monthlyPrice = 0;
             let ppgb = 0;
@@ -359,27 +397,13 @@
             let flag = "ERROR";
 
             if (days > 0 && gb > 0) {
-                // 1. Hitung Harga Bulanan (Monthly Price)
-                // Rumus: Harga Asli * (30 / Masa Aktif Hari)
                 monthlyPrice = price * (30 / days);
-
-                // console.log(monthlyPrice, price, '636');
-
-                // 2. Hitung PPGB (Price Per Gigabyte) - dalam Ribuan Rupiah
-                // Rumus: (Harga Bulanan / Kuota GB) / 1000
                 ppgb = (monthlyPrice / gb) / 1000;
-
-                // 3. Ambil Minimum PPGB dari tabel threshold
                 minPPGB = getMinPPGB(monthlyPrice);
 
-                // 4. Cek Kepatuhan - LOGIC INI TIDAK DIUBAH SAMA SEKALI
-                // PPGB Hitung harus LEBIH KECIL atau SAMA DENGAN PPGB Minimum
                 if (price < 6000) {
                     flag = "NON COMPLY";
                     ppgb = (price / gb) / 1000;
-                    console.log('dsjs');
-
-
                 } else if (price < 32000) {
 
                     ppgb = (price / gb) / 1000;
@@ -388,20 +412,15 @@
                         flag = "NON COMPLY";
 
                     } else {
-
                         flag = (ppgb >= minPPGB) ? "COMPLY" : "NON COMPLY";
                     }
 
 
                 } else {
-
                     flag = (ppgb >= minPPGB) ? "COMPLY" : "NON COMPLY";
                 }
-                console.log(ppgb, minPPGB, flag, price, monthlyPrice, days, gb, 'tes out');
-
             } else {
                 flag = "INVALID INPUT";
-                // Jika input tidak valid, kita masih bisa mencari minimum PPGB berdasarkan harga aslinya (walau Monthly Price tidak terhitung)
                 minPPGB = getMinPPGB(price);
             }
 
@@ -418,7 +437,6 @@
 
         function validateInput() {
             const operator = operatorSelect.value;
-            // const packageName = packageNameInput.value.trim();
             const hargaNumeric = cleanRupiahFormat(hargaInput.value).trim();
             const kuotaGB = extractNumericGB(kuotaInput.value);
             const masaAktifDays = extractNumericDays(masaAktifInput.value);
@@ -428,17 +446,13 @@
             const isDaysValid = !isNaN(masaAktifDays) && masaAktifDays > 0;
 
             if (operator && isPriceValid && isKuotaValid && isDaysValid) {
-                // console.log('false');
-
                 checkButton.disabled = false;
             } else {
                 checkButton.disabled = true;
-                // console.log('true');
-
             }
         }
 
-        // Event listeners untuk format Rupiah
+        // Event listeners untuk input utama
         hargaInput.addEventListener('input', function(e) {
             this.value = formatRupiah(this.value);
             validateInput();
@@ -446,28 +460,92 @@
 
         hargaInput.addEventListener('blur', function(e) {
             if (this.value) {
-                // Saat blur, pastikan formatnya benar
                 this.value = formatRupiah(cleanRupiahFormat(this.value));
             }
             validateInput();
         });
 
-        // Event listeners untuk validasi umum
         operatorSelect.addEventListener('change', validateInput);
-        // packageNameInput.addEventListener('input', validateInput);
         kuotaInput.addEventListener('input', validateInput);
         masaAktifInput.addEventListener('input', validateInput);
 
 
         /**
-         * Fungsi utama untuk mensimulasikan proses simpan data dan perhitungan.
+         * Fungsi untuk mengambil Geolocation.
+         */
+        function getGeolocation(calculation) {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+
+                        $('#modal_latitude').val(lat);
+                        $('#modal_longitude').val(lon);
+
+                        // Update status di modal
+                        $(locationLoader).addClass('hidden');
+                        $(locationStatus).html(
+                            '<i data-lucide="check" class="w-4 h-4 mr-1 text-primary inline"></i> Lokasi Berhasil Diambil'
+                        );
+                        $(locationDataEl).removeClass('hidden').text(`Lat: ${lat.toFixed(6)}, Lon: ${lon.toFixed(6)}`);
+                        $(finalSubmitButton).prop('disabled', false);
+                        lucide.createIcons();
+
+                        // Tampilkan hasil perhitungan sementara di background
+                        renderConfirmation({
+                            operator: operatorSelect.value,
+                            harga: parseInt(cleanRupiahFormat(hargaInput.value).trim()),
+                            kuota_raw: kuotaInput.value.trim(),
+                            masa_aktif_raw: masaAktifInput.value.trim(),
+                            kuota_gb: extractNumericGB(kuotaInput.value),
+                            masa_aktif_hari: extractNumericDays(masaAktifInput.value)
+                        }, calculation);
+                    },
+                    function(error) {
+                        let errorMessage;
+                        if (error.code === error.PERMISSION_DENIED) {
+                            errorMessage = "Izin lokasi DITOLAK. Harap izinkan akses lokasi untuk melanjutkan.";
+                        } else if (error.code === error.POSITION_UNAVAILABLE) {
+                            errorMessage = "Informasi lokasi tidak tersedia.";
+                        } else if (error.code === error.TIMEOUT) {
+                            errorMessage = "Waktu tunggu pengambilan lokasi habis (Timeout).";
+                        } else {
+                            errorMessage = "Terjadi kesalahan yang tidak diketahui saat mengambil lokasi.";
+                        }
+
+                        $(locationLoader).addClass('hidden');
+                        $(locationStatus).html(
+                            '<i data-lucide="alert-triangle" class="w-4 h-4 mr-1 text-danger inline"></i> Gagal Mendapat Lokasi: ' +
+                            errorMessage);
+                        $(finalSubmitButton).prop('disabled', true);
+                        lucide.createIcons();
+
+                        showAlert("Gagal Geolocation", errorMessage);
+                    }, {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                $(locationLoader).addClass('hidden');
+                $(locationStatus).html(
+                    '<i data-lucide="alert-circle" class="w-4 h-4 mr-1 text-danger inline"></i> Browser tidak mendukung Geolocation.'
+                );
+                $(finalSubmitButton).prop('disabled', true);
+                lucide.createIcons();
+            }
+        }
+
+        /**
+         * Fungsi utama untuk menampilkan modal dan meminta lokasi.
          */
         function submitPackage() {
             const price = parseInt(cleanRupiahFormat(hargaInput.value).trim());
             const gb = extractNumericGB(kuotaInput.value);
             const days = extractNumericDays(masaAktifInput.value);
 
-            // Validasi akhir
             if (isNaN(price) || isNaN(gb) || isNaN(days) || price <= 0 || gb <= 0 || days <= 0) {
                 showAlert("Validasi Gagal",
                     "Pastikan Harga, Kuota (GB), dan Masa Aktif (Hari) diisi dengan angka yang valid dan lebih dari nol."
@@ -475,48 +553,138 @@
                 return;
             }
 
-            // Lakukan Perhitungan
             const calculation = calculateCompliance(price, days, gb);
 
-            // Tampilkan loading state
-            checkButton.disabled = true;
-            buttonText.textContent = 'Menghitung...';
-            loader.classList.remove('hidden');
-            resultsDiv.innerHTML = '';
+            // 1. Tampilkan Modal
+            $(uploadModal).removeClass('hidden').addClass('flex');
+            lucide.createIcons();
 
-            // Simulasikan proses simpan/API dengan delay 1.5 detik
-            setTimeout(() => {
-                try {
-                    const packageData = {
-                        operator: operatorSelect.value,
-                        // name: packageNameInput.value.trim(),
-                        harga: price, // Simpan harga numerik untuk diproses di renderConfirmation
-                        kuota_raw: kuotaInput.value.trim(),
-                        masa_aktif_raw: masaAktifInput.value.trim(),
-                        kuota_gb: gb,
-                        masa_aktif_hari: days
-                    };
+            // 2. Isi Hidden Input Modal dengan data paket & perhitungan
+            $('#modal_operator').val(operatorSelect.value);
+            $('#modal_harga').val(price);
+            $('#modal_kuota_gb').val(gb);
+            $('#modal_masa_aktif_hari').val(days);
+            $('#modal_flag').val(calculation.flag);
+            $('#modal_ppgb').val(calculation.ppgb.toFixed(2));
 
-                    renderConfirmation(packageData, calculation);
+            // Reset status lokasi
+            $('#modal_latitude').val('');
+            $('#modal_longitude').val('');
+            $(locationStatus).text('Meminta izin lokasi...');
+            $(locationLoader).removeClass('hidden');
+            $(locationDataEl).addClass('hidden').text('');
+            $(finalSubmitButton).prop('disabled', true);
 
-                } catch (error) {
-                    console.error("Error during package submission simulation:", error);
-                    showAlert("Kesalahan Sistem", "Terjadi kesalahan saat memproses perhitungan. Coba lagi.");
-                } finally {
-                    // Sembunyikan loading state
-                    // Perlu cek ulang validasi karena input mungkin sudah diubah saat loading
-                    buttonText.textContent = 'Simpan & Hitung Kepatuhan';
-                    loader.classList.add('hidden');
-                    validateInput();
-                }
-
-            }, 1500); // 1.5 detik delay simulasi
+            // 3. Panggil Geolocation
+            getGeolocation(calculation);
         }
 
         /**
-         * Menampilkan konfirmasi data dan hasil perhitungan.
-         * @param {Object} pkg Data paket yang disubmit.
-         * @param {Object} calc Hasil perhitungan compliance.
+         * Handler untuk form submission (AJAX) di dalam modal.
+         */
+        $('#packageForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const files = $('#buktiUpload')[0].files;
+            const MAX_FILE_SIZE = 2097152; // 2MB
+            const MAX_TOTAL_FILES = 5;
+
+            // 1. Validasi File
+            if (files.length === 0) {
+                showAlert("Validasi Upload", "Harap unggah minimal satu bukti foto.", false);
+                return;
+            }
+            if (files.length > MAX_TOTAL_FILES) {
+                showAlert("Validasi Upload", `Jumlah file melebihi batas (${MAX_TOTAL_FILES} file).`, false);
+                return;
+            }
+
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].size > MAX_FILE_SIZE) {
+                    showAlert("Validasi File", `Ukuran file ke-${i + 1} (${files[i].name}) melebihi batas 2MB.`,
+                        false);
+                    return;
+                }
+            }
+
+            // --- AMBIL DATA DARI HIDDEN INPUT UNTUK DITAMPILKAN NANTI (SETELAH SUKSES) ---
+            const packageData = {
+                operator: $('#modal_operator').val(),
+                harga: parseInt($('#modal_harga').val()),
+                kuota_gb: parseFloat($('#modal_kuota_gb').val()),
+                masa_aktif_hari: parseInt($('#modal_masa_aktif_hari').val()),
+                kuota_raw: kuotaInput.value.trim(),
+                masa_aktif_raw: masaAktifInput.value.trim(),
+            };
+            const calculation = {
+                // Hitung ulang monthly price untuk renderConfirmation
+                monthlyPrice: packageData.harga * (30 / packageData.masa_aktif_hari),
+                ppgb: parseFloat($('#modal_ppgb').val()),
+                minPPGB: getMinPPGB(packageData.harga * (30 / packageData.masa_aktif_hari)),
+                flag: $('#modal_flag').val()
+            };
+            // --------------------------------------------------------------------------
+
+            // Tampilkan loading saat proses AJAX
+            $(finalSubmitButton).prop('disabled', true);
+            $(finalButtonText).text('Mengirim Data...');
+
+            // Panggil AJAX
+            $.ajax({
+                url: '{{ route('check') }}', // Sesuaikan dengan route name Anda: package.store
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    // 1. Tutup Modal
+                    closeModal();
+
+                    // 2. Tampilkan Hasil di bawah form utama
+                    renderConfirmation(packageData, calculation);
+
+                    // 3. Tampilkan Alert Sukses
+                    showAlert("Sukses! 🎉",
+                        "Data paket, lokasi, dan bukti berhasil disimpan di server. " + (response
+                            .message || ''), false);
+
+                    // 4. Reset form input utama agar siap untuk input baru
+                    $('#packageForm')[0].reset();
+                    $('#operator').val('');
+                    $('#buktiUpload').val('');
+                    validateInput();
+
+                },
+                error: function(xhr, status, error) {
+                    closeModal();
+                    let msg = "Terjadi kesalahan saat mengirim data ke server. Coba lagi.";
+                    try {
+                        const responseJson = JSON.parse(xhr.responseText);
+                        // Ambil error message dari response JSON (khusus Laravel 422 errors)
+                        if (xhr.status === 422 && responseJson.errors) {
+                            const errorKeys = Object.keys(responseJson.errors);
+                            msg = responseJson.errors[errorKeys[0]][0]; // Ambil error pertama
+                        } else {
+                            msg = responseJson.message || xhr.statusText || msg;
+                        }
+                    } catch (e) {
+                        msg = "Server Error atau Koneksi Gagal (" + xhr.status + ").";
+                    }
+                    showAlert("Gagal Kirim Data ❌", msg);
+                },
+                complete: function() {
+                    $(finalButtonText).text('Konfirmasi & Kirim Data');
+                    if ($('#modal_latitude').val() && $('#modal_longitude').val()) {
+                        $(finalSubmitButton).prop('disabled', false);
+                    }
+                }
+            });
+        });
+
+
+        /**
+         * Menampilkan konfirmasi data dan hasil perhitungan di resultsDiv.
          */
         function renderConfirmation(pkg, calc) {
             const isComply = calc.flag === "COMPLY";
@@ -574,28 +742,25 @@
                         </div>
                         <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                             <span class="font-medium text-gray-600">PPGB (Hitung):</span>
-                            <span class="font-bold text-blue-600">${calc.ppgb.toFixed(2)} K/GB</span>
+                            <span class="font-bold text-blue-600">${calc.ppgb.toFixed(2)} </span>
                         </div>
                         <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                             <span class="font-medium text-gray-600">PPGB Minimum (Ambang Batas):</span>
-                            <span class="font-bold text-gray-800">${calc.minPPGB.toFixed(2)} K/GB</span>
+                            <span class="font-bold text-gray-800">${calc.minPPGB.toFixed(2)} </span>
                         </div>
                     </div>
 
-                    <!-- Compliance Flag -->
                     <div class="mt-6 p-4 text-center rounded-xl font-extrabold text-white text-xl shadow-lg ring-4 ${flagBg} ${flagRing}">
                         <span class="uppercase">${flagText}</span>
                     </div>
                 </div>
             `;
-            // Re-render Lucide icons for the new result block
             lucide.createIcons();
         }
 
         // Inisialisasi: memanggil validasi saat halaman dimuat
         window.onload = () => {
             validateInput();
-            // Inisialisasi format Rupiah jika ada nilai default
             if (hargaInput.value) {
                 hargaInput.value = formatRupiah(hargaInput.value);
             }
