@@ -9,6 +9,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load Lucide Icons untuk ikon yang modern -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo.png') }}" />
+    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="{{ asset('assets/img/logo.png') }}" />
     <style>
         /* Menggunakan font Inter untuk tampilan yang bersih */
         body {
@@ -73,7 +75,7 @@
         <div class="flex items-center space-x-3 mb-6">
             <img src="{{ asset('assets/img/telkomsel-seeklogo.png') }}" width="50" alt="">
             <h1 class="text-3xl font-extrabold text-gray-800">Cek Kepatuhan Harga</h1>
-            <img src="{{ asset('assets/img/logo.png') }}" class="absolute top-2 right-3" width="100" alt="">
+            <img src="{{ asset('assets/img/logo.png') }}" class="absolute top-2 right-3" width="50" alt="">
         </div>
         <p class="text-gray-500 mb-8 border-b pb-4">Masukkan detail paket data internet Anda untuk menghitung dan
             memeriksa Price Per Gigabyte (PPGB) terhadap ambang batas kepatuhan.</p>
