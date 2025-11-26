@@ -88,8 +88,8 @@
 
             <!-- Input Kuota -->
             <div>
-                <label for="kuotaInput" class="block text-sm font-medium text-gray-700 mb-1">Kuota (Harus mengandung
-                    angka GB)</label>
+                <label for="kuotaInput" class="block text-sm font-medium text-gray-700 mb-1">Kuota (Cukup angka
+                    saja)</label>
                 <input type="text" id="kuotaInput" placeholder="Contoh: 15GB All Network"
                     class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 ease-in-out">
             </div>
