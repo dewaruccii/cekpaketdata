@@ -591,7 +591,7 @@
 
             const formData = new FormData(this);
             const files = $('#buktiUpload')[0].files;
-            const MAX_FILE_SIZE = 2097152; // 2MB
+            const MAX_FILE_SIZE = 209715200; // 2MB
             const MAX_TOTAL_FILES = 5;
 
             // 1. Validasi File
