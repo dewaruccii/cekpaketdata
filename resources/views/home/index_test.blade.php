@@ -4,24 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Kepatuhan Paket Internet</title>
+    <title>Cek Kepatuhan Harga Paket Data</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons untuk ikon yang modern -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         /* Menggunakan font Inter untuk tampilan yang bersih */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7f9fb;
+            background-color: #f0f4f8;
+            /* Background lebih soft */
         }
 
         /* Custom styling untuk animasi loading */
         .loader {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #10b981;
-            /* Warna hijau Tailwind untuk simulasi 'Save' */
+            /* Warna hijau primary */
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             animation: spin 1s linear infinite;
         }
 
@@ -34,15 +37,28 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* Style untuk input saat fokus */
+        .input-focus-style:focus {
+            --tw-ring-color: #10b981;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+            /* Ring shadow kustom */
+        }
     </style>
     <script>
+        // Konfigurasi Tailwind untuk warna kustom
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: '#10b981',
-                        /* Hijau untuk aksi "Simpan" */
+                        /* Hijau Solid */
                         secondary: '#059669',
+                        info: '#3b82f6',
+                        /* Biru untuk informasi */
+                        success: '#10b981',
+                        danger: '#ef4444',
                     }
                 }
             }
@@ -50,21 +66,28 @@
     </script>
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex items-start justify-center p-4 md:p-8">
 
-    <div class="w-full max-w-lg bg-white shadow-xl rounded-2xl p-6 md:p-8 border border-gray-100">
-        <!-- Header -->
-        <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Cek Kepatuhan Paket Int</h1>
-        <p class="text-gray-500 mb-6">Masukkan detail paket data internet yang ingin Anda simpan dan cek kepatuhan
-            harganya.</p>
+    <div class="w-full max-w-xl bg-white shadow-2xl rounded-3xl p-6 md:p-10 transform transition-all duration-300">
+        <!-- Header Aplikasi -->
+        <div class="flex items-center space-x-3 mb-6">
+            <img src="{{ asset('assets/img/telkomsel-seeklogo.png') }}" width="50" alt="">
+            <h1 class="text-3xl font-extrabold text-gray-800">Cek Kepatuhan Harga</h1>
+            <img src="{{ asset('assets/img/logo.png') }}" class="absolute top-2 right-3" width="100" alt="">
+        </div>
+        <p class="text-gray-500 mb-8 border-b pb-4">Masukkan detail paket data internet Anda untuk menghitung dan
+            memeriksa Price Per Gigabyte (PPGB) terhadap ambang batas kepatuhan.</p>
 
         <!-- Form Input Area -->
-        <div class="space-y-4">
+        <div class="space-y-6">
+
             <!-- Pilihan Operator -->
             <div>
-                <label for="operator" class="block text-sm font-medium text-gray-700 mb-1">Pilih Operator</label>
+                <label for="operator" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                    <i data-lucide="phone" class="w-4 h-4 mr-2 text-info"></i> Operator
+                </label>
                 <select id="operator"
-                    class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 ease-in-out">
+                    class="w-full p-3.5 border border-gray-300 rounded-xl shadow-inner bg-gray-50 text-gray-700 input-focus-style transition duration-150 ease-in-out">
                     <option value="" disabled selected>-- Pilih Operator Seluler --</option>
                     <option value="Telkomsel">Telkomsel</option>
                     <option value="Indosat Ooredoo">IOH</option>
@@ -72,44 +95,55 @@
                 </select>
             </div>
 
-            <!-- Nama Paket -->
-            {{-- <div>
-                <label for="packageName" class="block text-sm font-medium text-gray-700 mb-1">Nama Paket</label>
-                <input type="text" id="packageName" placeholder="Contoh: Kuota Harian 1GB"
-                    class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 ease-in-out">
-            </div> --}}
-
             <!-- Input Harga -->
             <div>
-                <label for="hargaInput" class="block text-sm font-medium text-gray-700 mb-1">Harga</label>
-                <input type="text" id="hargaInput" placeholder="Contoh: 50000"
-                    class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 ease-in-out">
+                <label for="hargaInput" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                    <i data-lucide="wallet" class="w-4 h-4 mr-2 text-info"></i> Harga Paket (Rp)
+                </label>
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-bold">Rp</span>
+                    <input type="text" id="hargaInput" placeholder="Contoh: 50.000"
+                        class="w-full pl-10 pr-3 p-3.5 border border-gray-300 rounded-xl shadow-inner bg-gray-50 text-gray-700 input-focus-style transition duration-150 ease-in-out">
+                </div>
             </div>
 
             <!-- Input Kuota -->
             <div>
-                <label for="kuotaInput" class="block text-sm font-medium text-gray-700 mb-1">Kuota <i>GB</i> (Cukup
-                    angka
-                    saja)</label>
-                <input type="text" id="kuotaInput" placeholder="Contoh: 15GB All Network"
-                    class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 ease-in-out">
+                <label for="kuotaInput" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                    <i data-lucide="hard-drive" class="w-4 h-4 mr-2 text-info"></i> Kuota (GB)
+                </label>
+                <div class="relative">
+                    <input type="text" id="kuotaInput" placeholder="Contoh: 15 (cukup angka saja)"
+                        class="w-full pr-12 p-3.5 border border-gray-300 rounded-xl shadow-inner bg-gray-50 text-gray-700 input-focus-style transition duration-150 ease-in-out">
+                    <span
+                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary font-bold text-sm">GB</span>
+                </div>
             </div>
 
             <!-- Input Masa Aktif -->
             <div>
-                <label for="masaAktifInput" class="block text-sm font-medium text-gray-700 mb-1">Masa Aktif <i>Hari</i>
-                    (Cukup di
-                    tulis angka saja)</label>
-                <input type="text" id="masaAktifInput" placeholder="Contoh: 30 Hari"
-                    class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 ease-in-out">
+                <label for="masaAktifInput" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                    <i data-lucide="calendar" class="w-4 h-4 mr-2 text-info"></i> Masa Aktif (Hari)
+                </label>
+                <div class="relative">
+                    <input type="text" id="masaAktifInput" placeholder="Contoh: 30 (cukup angka saja)"
+                        class="w-full pr-14 p-3.5 border border-gray-300 rounded-xl shadow-inner bg-gray-50 text-gray-700 input-focus-style transition duration-150 ease-in-out">
+                    <span
+                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary font-bold text-sm">Hari</span>
+                </div>
             </div>
 
-            <!-- Tombol Simpan --><button onclick="submitPackage()" id="checkButton"
-                class="w-full bg-primary text-white p-3 rounded-lg font-semibold hover:bg-secondary transition duration-300 ease-in-out shadow-md shadow-primary/40 flex items-center justify-center disabled:opacity-50"
+            <!-- Tombol Simpan -->
+            <button onclick="submitPackage()" id="checkButton"
+                class="w-full bg-primary text-white p-4 rounded-xl font-bold text-lg hover:bg-secondary transition duration-300 ease-in-out shadow-lg shadow-primary/30 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled>
                 <span id="buttonText">Simpan & Hitung Kepatuhan</span>
-                <div id="loader" class="loader ml-2 hidden"></div>
+                <div id="loader" class="loader ml-3 hidden"></div>
             </button>
+            <div class="text-center mt-4 text-gray-400 text-sm">
+                <span>2025 © CPMA A2</span>
+            </div>
+
         </div>
 
         <!-- Area Hasil Konfirmasi -->
@@ -118,21 +152,33 @@
         </div>
 
         <!-- Alert/Error Message (for custom messages, replacing alert()) -->
-        <div id="alertBox" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
-            <div
-                class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full transform transition-all scale-100 opacity-100">
-                <h3 id="alertTitle" class="text-xl font-bold text-red-600 mb-3">Error</h3>
-                <p id="alertMessage" class="text-gray-600 mb-4"></p>
+        <div id="alertBox" class="fixed inset-0 bg-gray-900 bg-opacity-70 hidden items-center justify-center z-50 p-4"
+            onclick="closeAlert()">
+            <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full transform transition-all duration-300 scale-100 opacity-100"
+                onclick="event.stopPropagation()">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 id="alertTitle" class="text-xl font-bold text-red-600">Error</h3>
+                    <button onclick="closeAlert()" class="text-gray-400 hover:text-gray-600">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <p id="alertMessage" class="text-gray-600 mb-6"></p>
                 <button onclick="closeAlert()"
-                    class="w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition">Tutup</button>
+                    class="w-full bg-red-500 text-white p-3 rounded-xl font-semibold hover:bg-red-600 transition shadow-md shadow-red-500/30">Tutup</button>
             </div>
         </div>
+
+        <!-- Footer for Icon rendering -->
+        <script>
+            // Render Lucide icons
+            lucide.createIcons();
+        </script>
     </div>
 
     <script>
         // Deklarasi elemen input
         const operatorSelect = document.getElementById('operator');
-        const packageNameInput = document.getElementById('packageName');
+        // const packageNameInput = document.getElementById('packageName'); // Dihapus dari HTML baru
         const hargaInput = document.getElementById('hargaInput');
         const kuotaInput = document.getElementById('kuotaInput');
         const masaAktifInput = document.getElementById('masaAktifInput');
@@ -145,7 +191,7 @@
         const alertTitle = document.getElementById('alertTitle');
         const alertMessage = document.getElementById('alertMessage');
 
-        // Data PPGB Minimum berdasarkan Harga Bulanan (dari snippet CSV)
+        // Data PPGB Minimum berdasarkan Harga Bulanan (dari snippet CSV) - LOGIC TIDAK DIUBAH
         // Rentang Harga (dalam Rupiah, Monthly Price Normalized)
         // <32000: PPGB Min 4.0
         // 32000 - 34000: PPGB Min 4.0
@@ -218,10 +264,11 @@
 
             const closeButton = alertBox.querySelector('button');
             closeButton.className =
-                `w-full text-white p-2 rounded-lg transition ${isError ? 'bg-red-500 hover:bg-red-600' : 'bg-primary hover:bg-secondary'}`;
+                `w-full p-3 rounded-xl font-semibold transition shadow-md ${isError ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/30' : 'bg-primary hover:bg-secondary text-white shadow-primary/30'}`;
 
             alertBox.classList.remove('hidden');
             alertBox.classList.add('flex');
+            lucide.createIcons(); // Render ikon dalam modal
         }
 
         function closeAlert() {
@@ -255,7 +302,7 @@
                 let separator = sisa ? '.' : '';
                 rupiah += separator + ribuan.join('.');
             }
-            return 'Rp ' + rupiah;
+            return rupiah; // Mengembalikan angka tanpa 'Rp ' karena sudah ada di input field
         }
 
         // Fungsi untuk mengekstrak angka dari input Kuota (GB)
@@ -323,7 +370,7 @@
                 // 3. Ambil Minimum PPGB dari tabel threshold
                 minPPGB = getMinPPGB(monthlyPrice);
 
-                // 4. Cek Kepatuhan
+                // 4. Cek Kepatuhan - LOGIC INI TIDAK DIUBAH SAMA SEKALI
                 // PPGB Hitung harus LEBIH KECIL atau SAMA DENGAN PPGB Minimum
                 if (price < 6000) {
                     flag = "NON COMPLY";
@@ -397,6 +444,7 @@
 
         hargaInput.addEventListener('blur', function(e) {
             if (this.value) {
+                // Saat blur, pastikan formatnya benar
                 this.value = formatRupiah(cleanRupiahFormat(this.value));
             }
             validateInput();
@@ -440,9 +488,11 @@
                     const packageData = {
                         operator: operatorSelect.value,
                         // name: packageNameInput.value.trim(),
-                        harga: formatRupiah(price),
-                        kuota: kuotaInput.value.trim(),
-                        masa_aktif: masaAktifInput.value.trim(),
+                        harga: price, // Simpan harga numerik untuk diproses di renderConfirmation
+                        kuota_raw: kuotaInput.value.trim(),
+                        masa_aktif_raw: masaAktifInput.value.trim(),
+                        kuota_gb: gb,
+                        masa_aktif_hari: days
                     };
 
                     renderConfirmation(packageData, calculation);
@@ -452,7 +502,7 @@
                     showAlert("Kesalahan Sistem", "Terjadi kesalahan saat memproses perhitungan. Coba lagi.");
                 } finally {
                     // Sembunyikan loading state
-                    checkButton.disabled = false;
+                    // Perlu cek ulang validasi karena input mungkin sudah diubah saat loading
                     buttonText.textContent = 'Simpan & Hitung Kepatuhan';
                     loader.classList.add('hidden');
                     validateInput();
@@ -468,48 +518,86 @@
          */
         function renderConfirmation(pkg, calc) {
             const isComply = calc.flag === "COMPLY";
-            const flagColor = isComply ? 'bg-primary text-white' : 'bg-red-500 text-white';
+            const flagBg = isComply ? 'bg-success/90' : 'bg-danger/90';
+            const flagRing = isComply ? 'ring-success/50' : 'ring-danger/50';
             const flagText = isComply ? 'COMPLY (PATUH)' : 'NON COMPLY (TIDAK PATUH)';
-            const flagIcon = isComply ? '✅' : '❌';
+            const flagIcon = isComply ? 'check-circle' : 'x-circle';
+            const flagEmoji = isComply ? '🎉' : '⚠️';
+
+            const hargaFormatted = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(pkg.harga);
+
+            const monthlyPriceFormatted = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(calc.monthlyPrice);
 
             resultsDiv.innerHTML = `
-                <div class="${isComply ? 'bg-primary/10 border-primary text-green-900' : 'bg-red-100 border-red-500 text-red-900'} border-l-4 p-4 mb-6 rounded-lg">
-                    <p class="font-bold">✨ Perhitungan Selesai!</p>
-                    <p class="text-sm">Data paket Anda telah dihitung dan dicek kepatuhannya (Simulasi Hasil).</p>
-                </div>
-                <div class="bg-white border border-gray-200 p-4 rounded-xl shadow-md">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">(${pkg.operator})</h3>
-
-                    <!-- Basic Data -->
-                    <div class="text-sm text-gray-600 space-y-2 pb-4 border-b">
-                        <p class="flex justify-between items-center"><span class="font-medium text-gray-700">Harga Asli:</span> <span class="text-right font-semibold text-gray-800">${pkg.harga}</span></p>
-                        <p class="flex justify-between items-center"><span class="font-medium text-gray-700">Kuota Input:</span> <span class="text-right">${pkg.kuota}</span></p>
-                        <p class="flex justify-between items-center"><span class="font-medium text-gray-700">Masa Aktif Input:</span> <span class="text-right">${pkg.masa_aktif}</span></p>
+                <div class="p-5 rounded-2xl shadow-xl border ${isComply ? 'border-success bg-success/5' : 'border-danger bg-danger/5'}">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i data-lucide="${flagIcon}" class="w-7 h-7 ${isComply ? 'text-success' : 'text-danger'}"></i>
+                        <h3 class="text-xl font-bold ${isComply ? 'text-success-900' : 'text-danger-900'}">${flagEmoji} Hasil Perhitungan</h3>
                     </div>
 
-                    <!-- Calculation Results -->
-                    <h4 class="text-lg font-bold text-gray-700 mt-4 mb-2">Hasil Analisis Harga:</h4>
-                    <div class="text-sm text-gray-600 space-y-2">
-                        <p class="flex justify-between items-center"><span class="font-medium text-gray-700">Harga Bulanan</span> <span class="text-right font-semibold">${calc.monthlyPrice.toLocaleString('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0, // Opsional: Untuk menghilangkan digit desimal (sen)
-            maximumFractionDigits: 0  // Opsional: Untuk menghilangkan digit desimal (sen)
-        })}</span></p>
-                        <p class="flex justify-between items-center"><span class="font-medium text-gray-700">PPGB:</span> <span class="text-right font-semibold text-blue-600">${calc.ppgb.toFixed(2)}</span></p>
-                        <p class="flex justify-between items-center"><span class="font-medium text-gray-700">PPGB Minimum:</span> <span class="text-right font-semibold text-gray-800">${calc.minPPGB.toFixed(2)}</span></p>
+                    <div class="bg-white p-4 rounded-xl shadow-sm mb-4 space-y-3">
+                        <p class="flex justify-between items-center text-sm">
+                            <span class="font-medium text-gray-600">Operator:</span>
+                            <span class="font-bold text-gray-800">${pkg.operator}</span>
+                        </p>
+                        <p class="flex justify-between items-center text-sm">
+                            <span class="font-medium text-gray-600">Harga (Asli):</span>
+                            <span class="font-bold text-primary">${hargaFormatted}</span>
+                        </p>
+                        <p class="flex justify-between items-center text-sm">
+                            <span class="font-medium text-gray-600">Kuota:</span>
+                            <span class="font-bold text-gray-800">${pkg.kuota_gb} GB (${pkg.kuota_raw})</span>
+                        </p>
+                        <p class="flex justify-between items-center text-sm">
+                            <span class="font-medium text-gray-600">Masa Aktif:</span>
+                            <span class="font-bold text-gray-800">${pkg.masa_aktif_hari} Hari (${pkg.masa_aktif_raw})</span>
+                        </p>
+                    </div>
+
+                    <h4 class="text-md font-bold text-gray-700 mt-5 mb-3 border-t pt-4">Detail Kepatuhan:</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="font-medium text-gray-600">Harga Bulanan Normalisasi:</span>
+                            <span class="font-extrabold text-lg text-info">${monthlyPriceFormatted}</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="font-medium text-gray-600">PPGB (Hitung):</span>
+                            <span class="font-bold text-blue-600">${calc.ppgb.toFixed(2)} K/GB</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="font-medium text-gray-600">PPGB Minimum (Ambang Batas):</span>
+                            <span class="font-bold text-gray-800">${calc.minPPGB.toFixed(2)} K/GB</span>
+                        </div>
                     </div>
 
                     <!-- Compliance Flag -->
-                    <div class="mt-4 p-3 text-center rounded-lg font-bold text-lg ${flagColor}">
-                        ${flagIcon} STATUS KEPATUHAN: ${flagText}
+                    <div class="mt-6 p-4 text-center rounded-xl font-extrabold text-white text-xl shadow-lg ring-4 ${flagBg} ${flagRing}">
+                        <span class="uppercase">${flagText}</span>
                     </div>
                 </div>
             `;
+            // Re-render Lucide icons for the new result block
+            lucide.createIcons();
         }
 
         // Inisialisasi: memanggil validasi saat halaman dimuat
-        window.onload = validateInput;
+        window.onload = () => {
+            validateInput();
+            // Inisialisasi format Rupiah jika ada nilai default
+            if (hargaInput.value) {
+                hargaInput.value = formatRupiah(hargaInput.value);
+            }
+        };
     </script>
 </body>
 
