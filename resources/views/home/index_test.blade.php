@@ -84,8 +84,12 @@
                     class="w-full p-3.5 border border-gray-300 rounded-xl shadow-inner bg-gray-50 text-gray-700 input-focus-style transition duration-150 ease-in-out">
                     <option value="" disabled selected>-- Pilih Operator Seluler --</option>
                     <option value="Telkomsel">Telkomsel</option>
-                    <option value="Indosat Ooredoo">IOH</option>
-                    <option value="XL Axiata">XL Smart</option>
+                    <option value="Indosat">Indosat</option>
+                    <option value="XL">XL</option>
+                    <option value="Axis">Axis</option>
+                    <option value="Smart">Smart</option>
+                    <option value="Three">Three</option>
+
                 </select>
             </div>
 

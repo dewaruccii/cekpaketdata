@@ -27,7 +27,7 @@ class HomeController extends Controller
             'longitude' => 'nullable|numeric|between:-180,180',
             // Validasi untuk multiple files:
             'bukti' => 'required|array|max:5', // Harus ada array file, max 5 file
-            'bukti.*' => 'mimes:jpeg,png|max:2048', // Setiap file max 2MB (2048 KB)
+            'bukti.*' => 'mimes:jpeg,png|max:10000', // Setiap file max 10MB (10000 KB)
         ]);
 
         if ($validator->fails()) {
