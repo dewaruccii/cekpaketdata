@@ -1029,7 +1029,7 @@
 
             const flagRing = isComply ? 'ring-success/50' : 'ring-danger/50';
 
-            const flagText = isComply ? 'Okay Kaka' : 'Tidak Okay Kaka';
+            const flagText = isComply ? 'COMPLY (PATUH)' : 'NON COMPLY (TIDAK PATUH)';
 
             const flagIcon = isComply ? 'check-circle' : 'x-circle';
 
