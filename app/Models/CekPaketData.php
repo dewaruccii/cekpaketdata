@@ -17,5 +17,11 @@ class CekPaketData extends Model
         'flag',
         'latitude',
         'longitude',
+        'user_email',
     ];
+
+    public function Files()
+    {
+        return $this->hasMany(File::class, 'fileable_id', 'uuid');
+    }
 }

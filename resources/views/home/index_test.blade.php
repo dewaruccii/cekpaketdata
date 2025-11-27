@@ -63,8 +63,26 @@
     </script>
 </head>
 
-<body class="min-h-screen flex items-start justify-center p-4 md:p-8">
+<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
+    @if (Auth::check())
 
+        <div class="w-full max-w-xl flex justify-between items-center mb-4">
+            @if (Auth::user()->is_admin)
+                <a href="{{ route('admin.laporan') }}"
+                    class="px-4 py-2 bg-info text-white rounded-lg font-semibold text-sm hover:bg-blue-700 transition duration-300 shadow-md shadow-info/30 flex items-center space-x-2">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                    <span>Halaman Admin</span>
+                </a>
+            @endif
+
+            <a href="{{ route('auth.logout') }}"
+                class="px-4 py-2 bg-danger text-white rounded-lg font-semibold text-sm hover:bg-red-600 transition duration-300 shadow-md shadow-danger/30 flex items-center space-x-2">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+                <span>Logout</span>
+            </a>
+
+        </div>
+    @endif
     <div class="w-full max-w-xl bg-white shadow-2xl rounded-3xl p-6 md:p-10 transform transition-all duration-300">
         <div class="flex items-center space-x-3 mb-6">
             <img src="{{ asset('assets/img/telkomsel-seeklogo.png') }}" width="50" alt="">

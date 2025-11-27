@@ -180,10 +180,11 @@
                     <option value="" disabled selected>-- Pilih Operator Seluler --</option>
 
                     <option value="Telkomsel">Telkomsel</option>
-
-                    <option value="Indosat Ooredoo">IOH</option>
-
-                    <option value="XL Axiata">XL Smart</option>
+                    <option value="Indosat">Indosat</option>
+                    <option value="XL">XL</option>
+                    <option value="Axis">Axis</option>
+                    <option value="Smart">Smart</option>
+                    <option value="Three">Three</option>
 
                 </select>
 
@@ -1028,7 +1029,7 @@
 
             const flagRing = isComply ? 'ring-success/50' : 'ring-danger/50';
 
-            const flagText = isComply ? 'COMPLY (PATUH)' : 'NON COMPLY (TIDAK PATUH)';
+            const flagText = isComply ? 'Okay Kaka' : 'Tidak Okay Kaka';
 
             const flagIcon = isComply ? 'check-circle' : 'x-circle';
 
@@ -1132,7 +1133,7 @@
 
                             <span class="font-medium text-gray-600">PPGB (Hitung):</span>
 
-                            <span class="font-bold text-blue-600">${calc.ppgb.toFixed(2)} K/GB</span>
+                            <span class="font-bold text-blue-600">${calc.ppgb.toFixed(2)}</span>
 
                         </div>
 
@@ -1140,7 +1141,7 @@
 
                             <span class="font-medium text-gray-600">PPGB Minimum (Ambang Batas):</span>
 
-                            <span class="font-bold text-gray-800">${calc.minPPGB.toFixed(2)} K/GB</span>
+                            <span class="font-bold text-gray-800">${calc.minPPGB.toFixed(2)}</span>
 
                         </div>
 

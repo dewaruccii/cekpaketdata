@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CekPaketData;
 use App\Services\FileService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +13,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('home.index_test');
+        return view('home.index');
     }
     public function check(Request $request)
     {
@@ -50,6 +51,7 @@ class HomeController extends Controller
                 'flag' => $request->flag,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
+                'user_email' => Auth::user()->email ?? null,
             ]);
 
             // 3. Proses Multiple File Upload
@@ -84,6 +86,48 @@ class HomeController extends Controller
                 'message' => 'Gagal menyimpan data ke server.',
                 'error_detail' => $e->getMessage()
             ], 500);
+        }
+    }
+    public function laporan()
+    {
+        return view('admin.laporan');
+    }
+    public function laporanData(Request $request)
+    {
+        $query = CekPaketData::query()->with('Files');
+
+        // Filter berdasarkan tanggal jika diberikan
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+        }
+
+        $data = $query->orderBy('created_at', 'desc')->get();
+
+        $return = [];
+        foreach ($data as $item) {
+            $return[] = [
+                'id' => $item->id,
+                'operator' => $item->operator,
+                'harga' => $item->harga,
+                'kuota_gb' => $item->kuota_gb,
+                'masa_aktif_hari' => $item->masa_aktif_hari,
+                'ppgb' => $item->ppgb,
+                'flag' => $item->flag,
+                'latitude' => $item->latitude,
+                'longitude' => $item->longitude,
+                'user_email' => $item->user_email,
+                'created_at' => $item->created_at->toDateTimeString(),
+                'files' => $item->Files->map(function ($file) {
+                    return [
+                        'file_name' => $file->original_name,
+                        'file_url' => route('files.view', ['uuid' => $file->uuid]),
+                    ];
+                }),
+            ];
+
+            return response()->json([
+                'data' => $return
+            ]);
         }
     }
 }
