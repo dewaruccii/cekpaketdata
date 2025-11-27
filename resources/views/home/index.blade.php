@@ -707,7 +707,12 @@
 
                 // Rumus: Harga Asli * (30 / Masa Aktif Hari)
 
-                monthlyPrice = price * (30 / days);
+                // monthlyPrice = price * (30 / days);
+                if (days < 28) {
+                    monthlyPrice = (price / days) * 28;
+                } else {
+                    monthlyPrice = price;
+                }
 
 
 
